@@ -9,7 +9,7 @@ install:
   
 build_script:
   - cd ./pangaea
-  - qmake pangaea.pro
+  - qmake src.pro
   - mingw32-make
   
 after_build:
