@@ -13,7 +13,7 @@ build_script:
   - mingw32-make
   
 after_build:
-  - windeployqt release/ColorLinesMultigame.exe
+  - windeployqt release/PangaeaCPPA.exe
   - rm release/*.o
   - rm release/*.cpp
 
