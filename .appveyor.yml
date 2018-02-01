@@ -13,7 +13,8 @@ build_script:
   - mingw32-make
   
 after_build:
-  - windeployqt release/PangaeaCPPA.exe
+  - git clone https://github.com/siborion/pangaea_flat.git release/flat
+  - windeployqt.exe release/PangaeaCPPA.exe --release --qmldir release/flat
   - rm release/*.o
   - rm release/*.cpp
 
