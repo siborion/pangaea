@@ -17,6 +17,7 @@ after_build:
   - windeployqt.exe release/PangaeaCPPA.exe --release --qmldir release/flat
   - rm release/*.o
   - rm release/*.cpp
+  - ISCC inno.iss
 
 artifacts:
   - path: release
