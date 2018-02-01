@@ -20,5 +20,5 @@ after_build:
   - ISCC inno.iss
 
 artifacts:
-  - path: release
+  - path: distrib
     type: zip
