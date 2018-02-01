@@ -22,9 +22,9 @@ AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
-OutputDir=D:\_svn\siborion\pangaea\Distrib
+OutputDir=C:\projects\pangaea\distrib
 OutputBaseFilename=PangaeaCPPA_Setup
-SetupIconFile=D:\_svn\siborion\pangaea\src\pangaea_amt.ico
+SetupIconFile=pangaea_amt.ico
 Compression=lzma
 SolidCompression=yes
 DisableDirPage=no
@@ -38,18 +38,10 @@ Name: russian; MessagesFile: compiler:Languages\Russian.isl
 Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked
 
 [Files]
-Source: D:\_svn\siborion\pangaea\src\release\PangaeaCPPA.exe; DestDir: {app}; Flags: ignoreversion
-Source: D:\_svn\siborion\pangaea\DistribSource9_1\*.dll; DestDir: {app}; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: D:\_svn\siborion\pangaea\DistribSource9_1\*.qml; DestDir: {app}; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: D:\_svn\siborion\pangaea\DistribSource9_1\*.qmlc; DestDir: {app}; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: D:\_svn\siborion\pangaea\DistribSource9_1\*.js; DestDir: {app}; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: D:\_svn\siborion\pangaea\DistribSource9_1\*.conf; DestDir: {app}; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: D:\_svn\siborion\pangaea\DistribSource9_1\*.qmltypes; DestDir: {app}; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: D:\_svn\siborion\pangaea\DistribSource9_1\qmldir; DestDir: {app}; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: D:\_svn\siborion\pangaea_skins\*.qml;  DestDir: {app}; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: D:\_svn\siborion\pangaea_skins\*.qmlc; DestDir: {app}; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: D:\_svn\siborion\pangaea_skins\*.svg;  DestDir: {app}; Flags: ignoreversion recursesubdirs createallsubdirs
-; NOTE: Don't use "Flags: ignoreversion" on any shared system files
+Source: release\PangaeaCPPA.exe; DestDir: {app}; Flags: ignoreversion
+Source: release\*.dll; DestDir: {app}; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: release\*.qml; DestDir: {app}; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: release\*.qmlc; DestDir: {app}; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: {group}\{#MyAppName}; Filename: {app}\{#MyAppExeName}
