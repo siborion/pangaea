@@ -8,7 +8,6 @@
 #include <QStack>
 #include "struct.h"
 #include "parser.h"
-//#include <QAudioDecoder>
 
 struct stWavHeader
 {

@@ -1,10 +1,8 @@
 #include "core.h"
 #include <QSettings>
 #include <QThread>
-//#include <QMessageBox>
 #include <QSerialPortInfo>
 #include <QDir>
-//#include <QAudioOutput>
 #include <QDesktopServices>
 #include <QGuiApplication>
 #include "qserialport.h"
