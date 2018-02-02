@@ -38,10 +38,11 @@ Name: russian; MessagesFile: compiler:Languages\Russian.isl
 Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked
 
 [Files]
-Source: release\PangaeaCPPA.exe; DestDir: {app}; Flags: ignoreversion
-Source: release\*.dll; DestDir: {app}; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: release\*.qml; DestDir: {app}; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: release\*.qmlc; DestDir: {app}; Flags: ignoreversion recursesubdirs createallsubdirs
+;Source: release\PangaeaCPPA.exe; DestDir: {app}; Flags: ignoreversion
+Source: release\*; DestDir: {app}; Flags: ignoreversion recursesubdirs createallsubdirs
+;Source: release\*.qml; DestDir: {app}; Flags: ignoreversion recursesubdirs createallsubdirs
+;Source: release\*.qmlc; DestDir: {app}; Flags: ignoreversion recursesubdirs createallsubdirs
+;Source: release\*.qmlc; DestDir: {app}; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: {group}\{#MyAppName}; Filename: {app}\{#MyAppExeName}
