@@ -23,9 +23,7 @@ bool Parser::getParse(QByteArray inBa, QList<QByteArray> *inRet)
     {
         kostyl = true;
 
-//        if(this->objectName()=="RX")
-//            qDebug() << QString("%1").arg(chr) << QString("%1").arg(val.at(curPos)) << curPos << "|" << mask.at(maskPos) << maskPos;
-
+        afterX = 0;
         if(mask.at(maskPos)=='X')
         {
             if(maskPos<val.size())
