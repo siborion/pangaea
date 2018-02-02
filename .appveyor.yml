@@ -16,7 +16,7 @@ build_script:
   
 after_build:
   - git clone https://github.com/siborion/pangaea_flat.git release/flat
-  - windeployqt.exe release/PangaeaCPPA.exe --release --qmldir release/flat
+  - windeployqt.exe release/PangaeaCPPA.exe --release --qmldir release/flat --verbose 10
   - rm release/*.o
   - rm release/*.cpp
   - ISCC inno.iss
