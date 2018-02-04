@@ -1,3 +1,5 @@
+version: 1.0.{build}
+
 branches:
   only:
     - master
@@ -19,8 +21,20 @@ after_build:
   - windeployqt.exe release/PangaeaCPPA.exe --release --qmldir release/flat 
   - rm release/*.o
   - rm release/*.cpp
-  - ISCC inno.iss
+  - ISCC inno.iss /dJenkinsAppVersion={version}
 
 artifacts:
   - path: distrib
     type: zip
+
+deploy:
+- provider: GitHub
+  tag: $(APPVEYOR_REPO_TAG_NAME)
+  release: $(APPVEYOR_REPO_TAG_NAME)
+  description: Pangaea
+  auth_token:
+    secure: a87bec8be1aa0151f66aaf051c452685a8a36d06
+  artifact: C:\projects\pangaea\distrib\distrib.zip
+  on:
+    branch: master
+    appveyor_repo_tag: true
