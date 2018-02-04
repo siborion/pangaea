@@ -1,4 +1,3 @@
-version: 1.0.{build}
 
 branches:
   only:
@@ -21,7 +20,7 @@ after_build:
   - windeployqt.exe release/PangaeaCPPA.exe --release --qmldir release/flat 
   - rm release/*.o
   - rm release/*.cpp
-  - ISCC inno.iss /dJenkinsAppVersion={version}
+  - ISCC inno.iss /dJenkinsAppVersion=%APPVEYOR_BUILD_VERSION%
 
 artifacts:
   - path: distrib
