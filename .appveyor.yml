@@ -1,4 +1,3 @@
-version: 1.0.{build}
 
 branches:
   only:
@@ -6,7 +5,6 @@ branches:
     
 install:
   - cd c:/QT
-  - dir
   - set QTDIR=C:\Qt\5.9.3\mingw53_32
   - choco install -y InnoSetup
   - set PATH=%QTDIR%\bin;C:\Qt\Tools\mingw530_32\bin;%PATH%;"C:\Program Files (x86)\Inno Setup 5"
@@ -18,10 +16,10 @@ build_script:
   
 after_build:
   - git clone https://github.com/siborion/pangaea_flat.git release/flat
-  - windeployqt.exe release/PangaeaCPPA.exe --release --qmldir release/flat 
+  - windeployqt.exe release/PangaeaCPPA.exe --release --qmldir release/flat --verbose 0
   - rm release/*.o
   - rm release/*.cpp
-  - ISCC inno.iss /dJenkinsAppVersion={version}
+  - ISCC inno.iss /dJenkinsAppVersion=%APPVEYOR_BUILD_VERSION%
 
 artifacts:
   - path: distrib
@@ -33,8 +31,9 @@ deploy:
   release: $(APPVEYOR_REPO_TAG_NAME)
   description: Pangaea
   auth_token:
-    secure: a87bec8be1aa0151f66aaf051c452685a8a36d06
+    secure: ndNqQx2JKglsbsslEf3JTUz+Eu6VOsKG3R5qPOVi7kYy7nBkCRuXwwU46ZtKoKmv
   artifact: C:\projects\pangaea\distrib\distrib.zip
   on:
     branch: master
-    appveyor_repo_tag: true
+    appveyor_repo_tag: true 
+
