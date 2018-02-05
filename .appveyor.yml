@@ -32,7 +32,7 @@ deploy:
   release: $(APPVEYOR_REPO_TAG_NAME)
   description: Pangaea
   auth_token:
-    secure: ndNqQx2JKglsbsslEf3JTUz+Eu6VOsKG3R5qPOVi7kYy7nBkCRuXwwU46ZtKoKmv
+    secure: "ndNqQx2JKglsbsslEf3JTUz+Eu6VOsKG3R5qPOVi7kYy7nBkCRuXwwU46ZtKoKmv"
   artifact: C:\projects\pangaea\distrib\distrib.zip
   on:
     branch: master
