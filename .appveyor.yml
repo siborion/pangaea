@@ -26,11 +26,12 @@ artifacts:
     type: zip
 
 deploy:
-  release: myproduct-v$(appveyor_build_version)
-  description: 'Release description'
   provider: GitHub
+#  release: myproduct-v$(appveyor_build_version)
+  description: 'Release description'
+  force_update: true
   auth_token:
-    secure: ndNqQx2JKglsbsslEf3JTUz+Eu6VOsKG3R5qPOVi7kYy7nBkCRuXwwU46ZtKoKmv # your encrypted token from GitHub
+    secure: r3rhjQZPZ0b63yBYy/tcomGJ640ZqHfCPVm1WKhSsbkvOIASBlcpw5xQX67+4zeB
   artifact: /.*\.zip/            # upload all NuGet packages to release assets
   draft: false
   prerelease: false
