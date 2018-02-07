@@ -28,7 +28,7 @@ artifacts:
 deploy:
 - provider: GitHub
   tag: $(APPVEYOR_REPO_TAG_NAME)
-  release: $(APPVEYOR_REPO_TAG_NAME)
+#  release: $(APPVEYOR_REPO_TAG_NAME)
   description: Pangaea
   auth_token:
     secure: ndNqQx2JKglsbsslEf3JTUz+Eu6VOsKG3R5qPOVi7kYy7nBkCRuXwwU46ZtKoKmv
