@@ -34,5 +34,5 @@ deploy:
   artifact: /.*\.zip/            # upload all NuGet packages to release assets
   appveyor_repo_tag: true        # deploy on tag push only  
   on:
-    branch: master                 # release from master branch only
+  branch: master                 # release from master branch only
  
