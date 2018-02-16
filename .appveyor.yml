@@ -30,7 +30,7 @@ deploy:
   description: 'Release description'
   force_update: true
   auth_token:
-  secure: 59ebd052d461cc1ca44f715d8d995b8f9ac2d3fd
+  secure: 4KhkwniFtMJt1RooZ08/gnX+NUUtxEbHEt1V2RBF6b2AlSdhfydy66lHl7F3T1bO
   artifact: /.*\.zip/            # upload all NuGet packages to release assets
   appveyor_repo_tag: true        # deploy on tag push only  
   on:
