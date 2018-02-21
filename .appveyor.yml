@@ -27,12 +27,13 @@ artifacts:
 
 deploy:
   provider: GitHub
+  release: myproduct-v$(appveyor_build_version)  
   description: 'Release description'
   force_update: true
   auth_token:
-  secure: viysZ6KstlTiK6Jq6vKwhp6N9rbcM78R83yPOZbVmush/P3EwYs/Sk9f1HWtiUrn
+    secure: viysZ6KstlTiK6Jq6vKwhp6N9rbcM78R83yPOZbVmush/P3EwYs/Sk9f1HWtiUrn
   artifact: /.*\.zip/            # upload all NuGet packages to release assets
-  appveyor_repo_tag: true        # deploy on tag push only  
   on:
-        branch: master                 # release from master branch only
+    branch: master                 # release from master branch only
+    appveyor_repo_tag: true        # deploy on tag push only          
  
