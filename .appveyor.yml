@@ -26,16 +26,10 @@ artifacts:
     type: zip
 
 deploy:
-
     description: '$(APPVEYOR_REPO_TAG_NAME)'
     provider: GitHub
-
     auth_token:
-    secure: viysZ6KstlTiK6Jq6vKwhp6N9rbcM78R83yPOZbVmush/P3EwYs/Sk9f1HWtiUrn
-
-    artifact: distrib.zip
+        secure: viysZ6KstlTiK6Jq6vKwhp6N9rbcM78R83yPOZbVmush/P3EwYs/Sk9f1HWtiUrn
     force_update: true
-
     on:
         appveyor_repo_tag: true   
- 
