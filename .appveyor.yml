@@ -3,7 +3,6 @@
 #  only:
 #    - master
 
-skip_tags: true
     
 install:
   - cd c:/QT
