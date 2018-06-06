@@ -241,7 +241,7 @@ void Core::slReadyRead()
                 emit sgReadValue ("presence_volume",       massiv[EnumC46::pr_vol]);
 
                 emit sgReadValue ("lpf_on",                massiv[EnumC46::lop_on]);
-                emit sgReadValue ("lpf_volume",            (195-massiv[EnumC46::lop]));
+                emit sgReadValue ("lpf_volume",            massiv[EnumC46::lop]);
 
                 emit sgReadValue ("hpf_on",                massiv[EnumC46::hip_on]);
                 emit sgReadValue ("hpf_volume",            massiv[EnumC46::hip]);
@@ -268,16 +268,16 @@ void Core::slReadyRead()
                 emit sgReadValue ("gate_decay",            massiv[EnumC46::gate_att]);
 
                 emit sgReadValue ("eq_on",                 massiv[EnumC46::eq_on]);
-                emit sgReadValue ("eq_freq1",              massiv[EnumC46::fr1]);
-                emit sgReadValue ("eq_freq2",              massiv[EnumC46::fr2]);
-                emit sgReadValue ("eq_freq3",              massiv[EnumC46::fr3]);
-                emit sgReadValue ("eq_freq4",              massiv[EnumC46::fr4]);
-                emit sgReadValue ("eq_freq5",              massiv[EnumC46::fr5]);
-                emit sgReadValue ("eq_q1",                 massiv[EnumC46::q1]);
-                emit sgReadValue ("eq_q2",                 massiv[EnumC46::q2]);
-                emit sgReadValue ("eq_q3",                 massiv[EnumC46::q3]);
-                emit sgReadValue ("eq_q4",                 massiv[EnumC46::q4]);
-                emit sgReadValue ("eq_q5",                 massiv[EnumC46::q5]);
+                emit sgReadValue ("eq_freq1",              (qint8)massiv[EnumC46::fr1]);
+                emit sgReadValue ("eq_freq2",              (qint8)massiv[EnumC46::fr2]);
+                emit sgReadValue ("eq_freq3",              (qint8)massiv[EnumC46::fr3]);
+                emit sgReadValue ("eq_freq4",              (qint8)massiv[EnumC46::fr4]);
+                emit sgReadValue ("eq_freq5",              (qint8)massiv[EnumC46::fr5]);
+                emit sgReadValue ("eq_q1",                 (qint8)massiv[EnumC46::q1]);
+                emit sgReadValue ("eq_q2",                 (qint8)massiv[EnumC46::q2]);
+                emit sgReadValue ("eq_q3",                 (qint8)massiv[EnumC46::q3]);
+                emit sgReadValue ("eq_q4",                 (qint8)massiv[EnumC46::q4]);
+                emit sgReadValue ("eq_q5",                 (qint8)massiv[EnumC46::q5]);
                 emit sgReadValue ("eq_volume1",            massiv[EnumC46::eq1]);
                 emit sgReadValue ("eq_volume2",            massiv[EnumC46::eq2]);
                 emit sgReadValue ("eq_volume3",            massiv[EnumC46::eq3]);
@@ -1441,7 +1441,7 @@ void Core::setValue(QString name, quint8 value)
     if(name==("lpf_on"))
         sendStr = QString("lo %1\r\n").arg(value, 0, 16);
     if(name==("lpf_volume"))
-        sendStr = QString("lv %1\r\n").arg(195-value, 0, 16);
+        sendStr = QString("lv %1\r\n").arg(value, 0, 16);
 
     if(name==("hpf_on"))
         sendStr = QString("ho %1\r\n").arg(value, 0, 16);
