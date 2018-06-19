@@ -1,7 +1,7 @@
 language: cpp
 
 os:
-  - linux
+#  - linux
   - osx
 
 dist: trusty
@@ -29,7 +29,7 @@ before_install:
 install:
   - '[ "$TRAVIS_OS_NAME" != linux ] || sudo apt-get -qy install cppcheck'
   - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" != */opt-* ]] || sudo apt-get -qy install qt${QT}base qt${QT}xmlpatterns'
-  - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" == */opt-* ]] || sudo apt-get -qy install qt5-qmake qtbase5-dev libqt5qml libqt5quick libqt5svg libqt5serialport'
+  - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" == */opt-* ]] || sudo apt-get -qy install qt5-qmake qtbase5-dev libqt5svg5-dev qtdeclarative5-dev'
   - '[ "$TRAVIS_OS_NAME" != osx ] || brew install cppcheck qt$BREW'
   - '[ "$TRAVIS_OS_NAME" != osx ] || brew link --force qt$BREW'
 
