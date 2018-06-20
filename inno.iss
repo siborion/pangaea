@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "AMT Pangaea CP PA"
-#define MyAppVersion "1.0.1669a"
+#define MyAppVersion "1.0.1671a"
 #define MyAppPublisher "AMT Electronics"
 #define MyAppURL "http://www.amtelectronics.com/"
 #define MyAppExeName "PangaeaCPPA.exe"
