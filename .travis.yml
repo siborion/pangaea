@@ -63,10 +63,10 @@ deploy:
     condition: '"$TRAVIS_OS_NAME" == osx && "$CXX" == clang++ && "$QT" == 5'
     tags: true
 
-notifications:
-  webhooks:
-    urls:
-      - https://webhooks.gitter.im/e/2b8ecf97afdf630edcec
-    on_success: change
-    on_failure: always
-    on_start: never
+#notifications:
+  #webhooks:
+   #urls:
+   #   - https://webhooks.gitter.im/e/2b8ecf97afdf630edcec
+   # on_success: change
+   # on_failure: always
+   # on_start: never
