@@ -1,14 +1,12 @@
 language: cpp
 
 os:
-#  - linux
   - osx
 
 dist: trusty
 
 compiler:
   - clang
-#  - gcc
 
 env:
   - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
