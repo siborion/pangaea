@@ -12,7 +12,6 @@ env:
   - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
 
 matrix:
-  # Qt no longer supports GCC on OSX.
   allow_failures:
     - { os: osx, compiler: gcc, env: QT=5  BREW= }
   exclude:
