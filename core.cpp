@@ -6,6 +6,7 @@
 #include <QDesktopServices>
 #include <QGuiApplication>
 #include "qserialport.h"
+#include "soxr.h"
 
 //#define logEn 1
 
@@ -19,6 +20,8 @@ Core::Core(QObject *parent) : QObject(parent), settings("AM Electronics", "CP-10
     maxPreset = 10;
     timer = new QTimer();
     timer->setInterval(1000);
+
+    qDebug()<<soxr_version();
 
     getName    = new Parser("amtdev\rX\nEND\n", "1111111X11111");
     getEND     = new Parser("gsEND\n", "111111");
