@@ -9,7 +9,8 @@ CONFIG += no_batch
 
 SOURCES += main.cpp \
     core.cpp \
-    parser.cpp
+    parser.cpp \
+    resample.cpp
 
 RC_FILE     = resources.rc
 
@@ -28,6 +29,7 @@ DISTFILES += \
 HEADERS += \
     core.h \
     struct.h \
-    parser.h
+    parser.h \
+    resample.h
 
 

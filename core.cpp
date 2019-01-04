@@ -6,7 +6,7 @@
 #include <QDesktopServices>
 #include <QGuiApplication>
 #include "qserialport.h"
-#include "soxr.h"
+//#include <QFile>
 
 //#define logEn 1
 
@@ -21,7 +21,51 @@ Core::Core(QObject *parent) : QObject(parent), settings("AM Electronics", "CP-10
     timer = new QTimer();
     timer->setInterval(1000);
 
-    qDebug()<<soxr_version();
+    QByteArray ba;
+    short *in;
+    QFile file("sample.raw");
+    qDebug()<<"qDebug()"<<file.open( QIODevice::ReadOnly);
+    ba = file.readAll();
+    file.close();
+    in = (short*)ba.data();
+    m_resample = new resample();
+    m_resample->start(in);
+    qDebug()<<"in[0]"<<in[0];
+    qDebug()<<"in[1]"<<in[1];
+    qDebug()<<"in[2]"<<in[2];
+    qDebug()<<"in[3]"<<in[3];
+    qDebug()<<"in[4]"<<in[4];
+    qDebug()<<"in[5]"<<in[5];
+    qDebug()<<"in[6]"<<in[6];
+    qDebug()<<"in[7]"<<in[7];
+
+
+    qDebug()<<"out[0]"<<m_resample->getSample()[0];
+    qDebug()<<"out[1]"<<m_resample->getSample()[1];
+    qDebug()<<"out[2]"<<m_resample->getSample()[2];
+    qDebug()<<"out[3]"<<m_resample->getSample()[3];
+    qDebug()<<"out[4]"<<m_resample->getSample()[4];
+    qDebug()<<"out[5]"<<m_resample->getSample()[5];
+    qDebug()<<"out[6]"<<m_resample->getSample()[6];
+    qDebug()<<"out[7]"<<m_resample->getSample()[7];
+
+//    ba.setRawData((char*)m_resample->getSample(),3000);
+    ba.clear();
+    ba.setRawData((const char*)m_resample->getSample(),30000);
+
+    qDebug()<<"lenght"<<ba.length();
+    qDebug()<<QString("%1").arg(ba.at(0));
+    qDebug()<<QString("%1").arg(ba.at(1));
+    qDebug()<<QString("%1").arg(ba.at(2));
+    qDebug()<<QString("%1").arg(ba.at(3));
+    qDebug()<<QString("%1").arg((quint8)ba.at(4));
+    qDebug()<<QString("%1").arg((quint8)ba.at(5));
+
+    file.setFileName("out.raw");
+    file.open(QIODevice::WriteOnly);
+    file.write(ba);
+    file.close();
+
 
     getName    = new Parser("amtdev\rX\nEND\n", "1111111X11111");
     getEND     = new Parser("gsEND\n", "111111");

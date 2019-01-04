@@ -8,6 +8,7 @@
 #include <QStack>
 #include "struct.h"
 #include "parser.h"
+#include "resample.h"
 
 struct stWavHeader
 {
@@ -107,6 +108,8 @@ public:
     Parser *getPC;
 
 private:
+    resample *m_resample;
+
     bool   enResiv;
     quint8 sendCount;
     quint8 maxBank;
