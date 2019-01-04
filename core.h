@@ -7,6 +7,7 @@
 #include <QFile>
 #include <QStack>
 #include "struct.h"
+#include "wavinfo.h"
 #include "parser.h"
 #include "resample.h"
 
@@ -108,6 +109,7 @@ public:
     Parser *getPC;
 
 private:
+    WaveInfo *waveInfo;
     resample *m_resample;
 
     bool   enResiv;

@@ -21,35 +21,39 @@ Core::Core(QObject *parent) : QObject(parent), settings("AM Electronics", "CP-10
     timer = new QTimer();
     timer->setInterval(1000);
 
+
+    waveInfo = new WaveInfo();
+
     QByteArray ba;
     short *in;
-    QFile file("sample.raw");
+    QFile file("24.wav");
     qDebug()<<"qDebug()"<<file.open( QIODevice::ReadOnly);
     ba = file.readAll();
+
+    if(waveInfo->parse(&ba))
+    {
+        qDebug() << "sampleRate"  << waveInfo->getFmt().sampleRate;
+        qDebug() << "extraFormat" << waveInfo->getFmt().extraFormat;
+        qDebug() << "compressionCode" << waveInfo->getFmt().compressionCode;
+        qDebug() << "numberChannels" << waveInfo->getFmt().numberChannels;
+        qDebug() << "bitPerSample" << waveInfo->getFmt().bitPerSample;
+
+        qDebug() << "size" << waveInfo->getData().size;
+        qDebug() << "size_0" << waveInfo->getData().data[0];
+        qDebug() << "size_1" << waveInfo->getData().data[1];
+        qDebug() << "size_2" << waveInfo->getData().data[2];
+        qDebug() << "size_3" << waveInfo->getData().data[3];
+        qDebug() << "size_4" << waveInfo->getData().data[4];
+        qDebug() << "size_5" << waveInfo->getData().data[5];
+        qDebug() << "size_6" << waveInfo->getData().data[6];
+
+    }
+
     file.close();
     in = (short*)ba.data();
     m_resample = new resample();
     m_resample->start(in);
-    qDebug()<<"in[0]"<<in[0];
-    qDebug()<<"in[1]"<<in[1];
-    qDebug()<<"in[2]"<<in[2];
-    qDebug()<<"in[3]"<<in[3];
-    qDebug()<<"in[4]"<<in[4];
-    qDebug()<<"in[5]"<<in[5];
-    qDebug()<<"in[6]"<<in[6];
-    qDebug()<<"in[7]"<<in[7];
 
-
-    qDebug()<<"out[0]"<<m_resample->getSample()[0];
-    qDebug()<<"out[1]"<<m_resample->getSample()[1];
-    qDebug()<<"out[2]"<<m_resample->getSample()[2];
-    qDebug()<<"out[3]"<<m_resample->getSample()[3];
-    qDebug()<<"out[4]"<<m_resample->getSample()[4];
-    qDebug()<<"out[5]"<<m_resample->getSample()[5];
-    qDebug()<<"out[6]"<<m_resample->getSample()[6];
-    qDebug()<<"out[7]"<<m_resample->getSample()[7];
-
-//    ba.setRawData((char*)m_resample->getSample(),3000);
     ba.clear();
     ba.setRawData((const char*)m_resample->getSample(),30000);
 

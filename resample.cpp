@@ -1,6 +1,8 @@
 #include "resample.h"
 #include "soxr.h"
 #include <QDebug>
+//#include "sox.h"
+
 
 resample::resample(QObject *parent) : QObject(parent)
 {

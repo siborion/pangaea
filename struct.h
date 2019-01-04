@@ -19,5 +19,4 @@ struct GS
     quint8  earRefOn;
 };
 
-
 #endif // STRUCT_H

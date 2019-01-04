@@ -10,11 +10,14 @@ CONFIG += no_batch
 SOURCES += main.cpp \
     core.cpp \
     parser.cpp \
-    resample.cpp
+    resample.cpp \
+    wavinfo.cpp
 
 RC_FILE     = resources.rc
 
 LIBS += -lsoxr  -L/usr/local/lib
+LIBS += -lsox  -L/usr/local/lib
+
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -30,6 +33,7 @@ HEADERS += \
     core.h \
     struct.h \
     parser.h \
-    resample.h
+    resample.h \
+    wavinfo.h
 
 
