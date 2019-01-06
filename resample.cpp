@@ -1,49 +1,59 @@
 #include "resample.h"
 #include "soxr.h"
 #include <QDebug>
-//#include "sox.h"
+#include "sox.h"
+
+//http://qaru.site/questions/2153780/downsampling-a-wav-file-using-libsox
 
 
 resample::resample(QObject *parent) : QObject(parent)
 {
-    qDebug()<<soxr_version();
-    output = new short[30000];
-//    delete output;
 }
 
 void resample::start(short *input)
 {
-    int numframes=30000;
-    float speed=0.3;
+    static sox_format_t * in, * out;
+    char * argv[5];
 
-    int outputFrames = numframes * speed;
-//    int extraReadNeeded = numframes - outputFrames;
+    argv[1] = "24.wav";
+    argv[2] = "24_3.wav";
 
-    soxr_error_t err;
+    sox_effects_chain_t *chain;
+    sox_effect_t * e;
 
-    soxr_datatype_t itype = SOXR_INT16_I;
-    soxr_datatype_t otype = SOXR_INT16_I;
-    soxr_io_spec_t iospec = soxr_io_spec(itype, otype);
+    assert(sox_init() == SOX_SUCCESS);
+    assert(in = sox_open_read(argv[1], NULL, NULL, NULL));
+    out= (sox_format_t *) malloc(sizeof (sox_format_t));
+    memcpy(out, in, sizeof (sox_format_t));
+    out->encoding.encoding = SOX_ENCODING_ULAW;
+    out->encoding.bits_per_sample=8;
+    out->signal.rate = 8000;
+    out->signal.precision = 8;
+    out->signal.length = SOX_UNSPEC;
+    assert(out = sox_open_write(argv[2], &out->signal, &out->encoding, NULL, NULL, NULL));
 
-    size_t idone = 0;
-    size_t odone = 0;
+    chain = sox_create_effects_chain(&in->encoding, &out->encoding);
 
-    // Do the resampling
-    soxr_t sox = soxr_create(44100, 44100 * speed, 1, &err, &iospec, NULL, NULL);
-    qDebug()<<"err1";
-    if (!err)
+    e = sox_create_effect(sox_find_effect("input"));
+    assert(sox_add_effect(chain, e, &in->signal, &in->signal) == SOX_SUCCESS);
+    free(e);
+
+//    out->signal.rate = 8000;
+//    in->signal.rate = 16000;
+
+    if (in->signal.rate != out->signal.rate)
     {
-        err = soxr_process(sox, input, numframes * 1, &idone, output, outputFrames, &odone);
-
-        qDebug()<<"err2"<<odone;
+        e = sox_create_effect(sox_find_effect("rate"));
+        assert(sox_effect_options(e, 0, NULL) == SOX_SUCCESS);
+        e->handler.flags |= SOX_EFF_LENGTH;
+        assert(sox_add_effect(chain, e, &in->signal, &out->signal) == SOX_SUCCESS);
+        free(e);
     }
-    else
-    {
-        qDebug()<<"err3";
-    }
-    qDebug()<<"err4";
 
-    soxr_delete(sox);
+    sox_delete_effects_chain(chain);
+    sox_close(out);
+    sox_close(in);
+    sox_quit();
 }
 
 short* resample::getSample()
