@@ -5,6 +5,7 @@
 #include <QtCore>
 #include <QSerialPort>
 #include <QFile>
+#include <QTemporaryFile>
 #include <QStack>
 #include "struct.h"
 #include "wavinfo.h"

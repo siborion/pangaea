@@ -21,55 +21,16 @@ Core::Core(QObject *parent) : QObject(parent), settings("AM Electronics", "CP-10
     timer = new QTimer();
     timer->setInterval(1000);
 
-
-    waveInfo = new WaveInfo();
-
-    QByteArray ba;
-    short *in;
-    QFile file("24.wav");
-    qDebug()<<"qDebug()"<<file.open( QIODevice::ReadOnly);
-    ba = file.readAll();
-
-    if(waveInfo->parse(&ba))
+    QString tempFile;
     {
-        qDebug() << "sampleRate"  << waveInfo->getFmt().sampleRate;
-        qDebug() << "extraFormat" << waveInfo->getFmt().extraFormat;
-        qDebug() << "compressionCode" << waveInfo->getFmt().compressionCode;
-        qDebug() << "numberChannels" << waveInfo->getFmt().numberChannels;
-        qDebug() << "bitPerSample" << waveInfo->getFmt().bitPerSample;
-
-        qDebug() << "size" << waveInfo->getData().size;
-        qDebug() << "size_0" << waveInfo->getData().data[0];
-        qDebug() << "size_1" << waveInfo->getData().data[1];
-        qDebug() << "size_2" << waveInfo->getData().data[2];
-        qDebug() << "size_3" << waveInfo->getData().data[3];
-        qDebug() << "size_4" << waveInfo->getData().data[4];
-        qDebug() << "size_5" << waveInfo->getData().data[5];
-        qDebug() << "size_6" << waveInfo->getData().data[6];
-
+        QTemporaryFile fileTemp;
+        m_resample = new resample();
+        qDebug()<<"file"<<fileTemp.open();
+        tempFile = fileTemp.fileName()+".wav";
     }
-
-    file.close();
-    in = (short*)ba.data();
-    m_resample = new resample();
-    m_resample->start(in);
-
-    ba.clear();
-    ba.setRawData((const char*)m_resample->getSample(),30000);
-
-    qDebug()<<"lenght"<<ba.length();
-    qDebug()<<QString("%1").arg(ba.at(0));
-    qDebug()<<QString("%1").arg(ba.at(1));
-    qDebug()<<QString("%1").arg(ba.at(2));
-    qDebug()<<QString("%1").arg(ba.at(3));
-    qDebug()<<QString("%1").arg((quint8)ba.at(4));
-    qDebug()<<QString("%1").arg((quint8)ba.at(5));
-
-    file.setFileName("out.raw");
-    file.open(QIODevice::WriteOnly);
-    file.write(ba);
-    file.close();
-
+    m_resample->getResample("1.wav", tempFile);
+    QDir dir;
+    dir.remove(tempFile);
 
     getName    = new Parser("amtdev\rX\nEND\n", "1111111X11111");
     getEND     = new Parser("gsEND\n", "111111");

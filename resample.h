@@ -8,7 +8,8 @@ class resample : public QObject
     Q_OBJECT
 public:
     explicit resample(QObject *parent = nullptr);
-    void start(short* input);
+//    void start(short* input);
+    bool getResample(QString originalFileName, QString resampleFileName);
     short* getSample();
 private:
     short* output;
