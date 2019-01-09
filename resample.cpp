@@ -1,7 +1,7 @@
 #include "resample.h"
-#include "soxr.h"
+//#include "soxr.h"
 #include <QDebug>
-#include "sox.h"
+#include "../sox-code/src/sox.h"
 
 //http://qaru.site/questions/2153780/downsampling-a-wav-file-using-libsox
 
@@ -14,7 +14,6 @@ resample::resample(QObject *parent) : QObject(parent)
 bool resample::getResample(QString originalFileName, QString resampleFileName)
 {
     int argc;
-    char * argv[5];
     static sox_format_t * in, * out; /* input and output files */
     sox_effects_chain_t * chain;
     sox_effect_t * e;
@@ -30,7 +29,8 @@ bool resample::getResample(QString originalFileName, QString resampleFileName)
       sox_false
     };
     sox_signalinfo_t out_signal = {
-      44100,
+//      44100,
+      48000,
       1,
       0,
       0,
@@ -38,15 +38,11 @@ bool resample::getResample(QString originalFileName, QString resampleFileName)
     };
 
     argc = 3;
-    argv[1] = originalFileName.toUtf8().data();
-    argv[2] = resampleFileName.toUtf8().data();
-
-    qDebug()<<argv[2];
 
     assert(argc == 3);
     assert(sox_init() == SOX_SUCCESS);
-    assert(in = sox_open_read(argv[1], NULL, NULL, NULL));
-    assert(out = sox_open_write(argv[2], &out_signal, &out_encoding, NULL, NULL, NULL));
+    assert(in = sox_open_read(originalFileName.toUtf8().data(), NULL, NULL, NULL));
+    assert(out = sox_open_write(resampleFileName.toUtf8().data(), &out_signal, &out_encoding, NULL, NULL, NULL));
 
     chain = sox_create_effects_chain(&in->encoding, &out->encoding);
 
@@ -83,6 +79,7 @@ bool resample::getResample(QString originalFileName, QString resampleFileName)
     sox_close(in);
     sox_quit();
 
+    return true;
 }
 
 short* resample::getSample()

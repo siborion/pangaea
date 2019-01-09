@@ -111,7 +111,7 @@ public:
 
 private:
     WaveInfo *waveInfo;
-    resample *m_resample;
+//    resample *m_resample;
 
     bool   enResiv;
     quint8 sendCount;

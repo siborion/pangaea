@@ -21,17 +21,6 @@ Core::Core(QObject *parent) : QObject(parent), settings("AM Electronics", "CP-10
     timer = new QTimer();
     timer->setInterval(1000);
 
-    QString tempFile;
-    {
-        QTemporaryFile fileTemp;
-        m_resample = new resample();
-        qDebug()<<"file"<<fileTemp.open();
-        tempFile = fileTemp.fileName()+".wav";
-    }
-    m_resample->getResample("1.wav", tempFile);
-    QDir dir;
-    dir.remove(tempFile);
-
     getName    = new Parser("amtdev\rX\nEND\n", "1111111X11111");
     getEND     = new Parser("gsEND\n", "111111");
     getccEND   = new Parser("ccEND\n", "111111");
@@ -543,26 +532,22 @@ void Core::send(QByteArray val)
 
 void Core::setImpuls(QString filePath, QString fileName)
 {
+    QString tempFile;
+    resample *m_resample;
     command.clear();
     port->readAll();
 
-    stWavHeader wavHead = getFormatWav(filePath);
+    tempFile = QDir::tempPath()+"/"+fileName;
 
-    if((wavHead.sampleRate != 48000) && (wavHead.sampleRate != 44100))
-    {
-        emit sgNotSupport();
-        emit sgSetWait(false);
-        emit sgReadValue ("wait", false);
-    }
-    else
+    m_resample = new resample();
+    if(m_resample->getResample(filePath, tempFile))
     {
         bImpulsPaste = false;
-        lastImpulsFileDsp = fileName;
+        lastImpulsFileDsp = tempFile;
         lastImpulsPathDsp = filePath;
         emit sgSetImpulsName(fileName);
         emit sgReadText ("impulse_name", fileName);
-        decodeWav(filePath, false);
-        //        typeLastInsertImpuls = 1;
+        decodeWav(tempFile, false);
     }
 }
 
@@ -985,24 +970,22 @@ void Core::slEscImpuls()
 
 void Core::decodeWav(QString filePath, bool whereSave)
 {
-    qDebug()<<"decodeWav"<<filePath<<whereSave;
-
-    if(!whereSave)
+//    if(!whereSave)
         decodeWavOk(filePath, whereSave);
-    else
-    {
-        stWavHeader wavHead = getFormatWav(filePath);
-        if((wavHead.bitsPerSample != 24) || (wavHead.numChannels == 2))
-        {
-            send("sp\r\n");
-            send("rn\r\n");
-            send("gs\r\n");
-            emit sgRequestConvert(filePath);
-            slTimer();
-        }
-        else
-            decodeWavOk(filePath, whereSave);
-    }
+//    else
+//    {
+//        stWavHeader wavHead = getFormatWav(filePath);
+//        if((wavHead.bitsPerSample != 24) || (wavHead.numChannels == 2))
+//        {
+//            send("sp\r\n");
+//            send("rn\r\n");
+//            send("gs\r\n");
+//            emit sgRequestConvert(filePath);
+//            slTimer();
+//        }
+//        else
+//            decodeWavOk(filePath, whereSave);
+//    }
 }
 
 
