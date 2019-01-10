@@ -16,7 +16,7 @@ SOURCES += main.cpp \
 RC_FILE     = resources.rc
 
 #LIBS += -lsox  -L/usr/local/lib
-#LIBS += -lsox  -LD:\_svn\_AMT\pangaea_git\lib
+LIBS += -lsox  -LD:\_svn\_AMT\pangaea_git\lib
 #win32:  LIBS += -lftd2xx  -LD:\_SVN\_American\siborion_american_scan
 
 
