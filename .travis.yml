@@ -1,20 +1,18 @@
 language: cpp
 
 os:
-#  - linux
   - osx
 
 dist: trusty
 
+
 compiler:
   - clang
-#  - gcc
 
 env:
   - QT=510 BREW=@ex PPA=beineri/opt-qt-5.10.1-trusty
 
 matrix:
-  # Qt no longer supports GCC on OSX.
   allow_failures:
     - { os: osx, compiler: gcc, env: QT=5  BREW= }
   exclude:
@@ -29,7 +27,7 @@ before_install:
 install:
   - '[ "$TRAVIS_OS_NAME" != linux ] || sudo apt-get -qy install cppcheck'
   - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" != */opt-* ]] || sudo apt-get -qy install qt${QT}base qt${QT}xmlpatterns'
-  - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" == */opt-* ]] || sudo apt-get -qy install qt5-qmake' 
+  - '[[ "$TRAVIS_OS_NAME" != linux || "$PPA" == */opt-* ]] || sudo apt-get -qy install qt5-qmake qt510serialport qt510declarative qt510quickcontrols2' 
   - '[ "$TRAVIS_OS_NAME" != osx ] || brew install cppcheck qt$BREW'
   - '[ "$TRAVIS_OS_NAME" != osx ] || brew link --force qt$BREW'
 
