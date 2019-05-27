@@ -1674,7 +1674,11 @@ void Core::setValue(QString name, quint8 value)
 void Core::slAnswerErrSave(QString fileName)
 {
     QFile file;
+#ifdef WIN32
+    fileName.remove("file:///");
+#else
     fileName.remove("file://");
+#endif
     file.setFileName(fileName);
     qDebug()<<fileName;
     if (file.open(QIODevice::WriteOnly))
