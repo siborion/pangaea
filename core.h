@@ -80,6 +80,9 @@ public:
 
     Q_INVOKABLE QString     getColorFileName();
 
+    Q_INVOKABLE void slAnswerErrSave(QString);
+
+
     Q_INVOKABLE quint8      typeDev;
 
     Q_INVOKABLE void setValue (QString name, quint8 value);
@@ -107,6 +110,10 @@ public:
     Parser *getPC;
 
 private:
+    QByteArray baCommand;
+    QByteArray baAnswer;
+    QByteArray res;
+
     bool   enResiv;
     quint8 sendCount;
     quint8 maxBank;
@@ -200,7 +207,7 @@ signals:
     void sgReadLPF   (quint32 Vol, quint32 On);
     void sgReadHPF   (quint32 Vol, quint32 On);
     void sgReadPresence (quint32 Vol, quint32 On);
-    void sgPortError(QString str);
+//    void sgPortError(QString str);
     void signal();
 
     void sgReadBank  (quint32 bImpuls, quint32 numBank);
@@ -224,6 +231,9 @@ signals:
     void sgSetColorFileName(QString foneColor);
     void sgReadValue(QString nameParam, qint32 value);
     void sgReadText(QString nameParam, QString value);
+    void sgAnswerErrSave(QString strCom);
+
+
 };
 
 #endif // CORE_H

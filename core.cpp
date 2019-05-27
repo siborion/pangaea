@@ -113,6 +113,7 @@ bool Core::openPort(QString portName)
     emit sgReadText(open?"open_port":"close_port", portName.replace(".","").replace("\\",""));
     if(open)
     {
+        res.clear();
         readAll();
     }
     return open;
@@ -120,8 +121,6 @@ bool Core::openPort(QString portName)
 
 void Core::slReadyRead()
 {
-    QByteArray res;
-
     enResiv = false;
     res = port->readAll();
 //    qDebug()<<"slReadyRead"<<res;
@@ -532,6 +531,7 @@ void Core::send(QByteArray val)
 void Core::setImpuls(QString filePath, QString fileName)
 {
     command.clear();
+    res.clear();
     port->readAll();
 
     stWavHeader wavHead = getFormatWav(filePath);
@@ -579,6 +579,7 @@ void Core::PresetChangeStage1(quint8 inChangePreset)
 void Core::slSaveUpDown(quint8 inChangePreset)
 {
     command.clear();
+    res.clear();
     port->readAll();
 
     presetUpDown = inChangePreset;
@@ -644,6 +645,7 @@ void Core::slSaveUpDown(quint8 inChangePreset)
 void Core::slSaveChange(qint8 inChangePreset)
 {
     command.clear();
+    res.clear();
     port->readAll();
 
     presetChange = inChangePreset;
@@ -747,7 +749,9 @@ void Core::slTimer()
             if(sendCount>3)
             {
                 sendCount = 0;
-                emit sgReadText("no_answer", QString((command.first().left(10))));
+                baCommand = command.first();
+                baAnswer = res;
+                emit sgAnswerErrSave(command.first());
                 command.clear();
                 return;
             }
@@ -853,6 +857,7 @@ void Core::readAll()
 {
     bEditable = true;
     command.clear();
+    res.clear();
     port->readAll();
     lastImpulsFileDsp.clear();
     lastImpulsPathDsp.clear();
@@ -876,6 +881,7 @@ void Core::sendRaw(QByteArray val)
     log->flush();
 #endif
     port->readAll();
+    res.clear();
     port->write(val);
     qDebug()<<"send"<<val;
 }
@@ -909,6 +915,7 @@ void Core::findPort()
 void Core::slEsc()
 {
     command.clear();
+    res.clear();
     port->readAll();
     presetEdit = false;
     sgSetEdit(presetEdit);
@@ -925,6 +932,7 @@ void Core::slEsc()
 void Core::slCompare()
 {
     command.clear();
+    res.clear();
     port->readAll();
 
     if(bEditable)
@@ -962,6 +970,7 @@ void Core::slCompare()
 void Core::slEscImpuls()
 {
     command.clear();
+    res.clear();
     port->readAll();
     lastImpulsFileDsp.clear();
     lastImpulsPathDsp.clear();
@@ -1660,6 +1669,22 @@ void Core::setValue(QString name, quint8 value)
         lastSendStr = sendStr;
     }
 
+}
+
+void Core::slAnswerErrSave(QString fileName)
+{
+    QFile file;
+    fileName.remove("file://");
+    file.setFileName(fileName);
+    qDebug()<<fileName;
+    if (file.open(QIODevice::WriteOnly))
+    {
+        qDebug()<<fileName;
+        file.write(">>>\r\n");
+        file.write(baCommand);
+        file.write("<<<\r\n");
+        file.write(baAnswer);
+    }
 }
 
 

@@ -6,6 +6,8 @@
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
+    app.setOrganizationName("AMT");
+    app.setApplicationName("Pangaea");
     QQmlApplicationEngine engine;
     Core core;
     QQmlContext *ctxt = engine.rootContext();
