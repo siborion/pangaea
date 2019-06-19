@@ -30,7 +30,8 @@ class Core : public QObject
 {
     Q_OBJECT
 public:
-    explicit Core(QObject *parent = 0);
+    explicit Core(QObject *parent = nullptr);
+    ~Core(void);
     Q_INVOKABLE void decodeWavOk(QString filePath, bool saveToFile);
     Q_INVOKABLE void send      (QByteArray);
     Q_INVOKABLE void sendRaw   (QByteArray);

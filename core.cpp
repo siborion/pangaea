@@ -100,7 +100,10 @@ void Core::slPortError()
 bool Core::openPort(QString portName)
 {
     if(port->isOpen())
+    {
         port->close();
+        qDebug()<<__FUNCTION__<<__LINE__;
+    }
     bool open;
     port->setPortName(portName);
     port->setBaudRate(9600);
@@ -905,8 +908,7 @@ void Core::findPort()
                 )
         {
             openPort(info.systemLocation());
-            qDebug()<<info.vendorIdentifier()<<info.productIdentifier()<<info.systemLocation();
-            qDebug()<<"OPEN";
+            qDebug()<<"vendor:"<<info.vendorIdentifier()<<" product: "<<info.productIdentifier()<<" location: "<<info.systemLocation();
             break;
         }
     }
@@ -1687,4 +1689,11 @@ void Core::slAnswerErrSave(QString fileName)
     }
 }
 
-
+Core::~Core()
+{
+    if(port->isOpen())
+    {
+        port->close();
+        qDebug()<<"CLOSEPORT";
+    }
+}
