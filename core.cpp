@@ -24,6 +24,7 @@ Core::Core(QObject *parent) : QObject(parent), settings("AM Electronics", "CP-10
     getEND     = new Parser("gsEND\n", "111111");
     getccEND   = new Parser("ccEND\n", "111111");
     getdccEND  = new Parser("dcc\rEND\n", "11111111");
+    getlccEND  = new Parser("lcc\rEND\n", "11111111");
     getescEND  = new Parser("esc\rEND\n", "11111111");
     getNX      = new Parser("NX\n", "111");
     getRX      = new Parser("RX 01", "11111");
@@ -100,7 +101,10 @@ void Core::slPortError()
 bool Core::openPort(QString portName)
 {
     if(port->isOpen())
+    {
         port->close();
+        qDebug()<<__FUNCTION__<<__LINE__;
+    }
     bool open;
     port->setPortName(portName);
     port->setBaudRate(9600);
@@ -400,6 +404,12 @@ void Core::slReadyRead()
     {
         enResiv = true;
         qDebug()<<"savePreset";
+    }
+
+    if(getlccEND->getParse(res, &rs))
+    {
+        enResiv = true;
+        qDebug()<<"getLcc";
     }
 
     if(getEND->getParse(res, &rs))
@@ -905,8 +915,7 @@ void Core::findPort()
                 )
         {
             openPort(info.systemLocation());
-            qDebug()<<info.vendorIdentifier()<<info.productIdentifier()<<info.systemLocation();
-            qDebug()<<"OPEN";
+            qDebug()<<"vendor:"<<info.vendorIdentifier()<<" product: "<<info.productIdentifier()<<" location: "<<info.systemLocation();
             break;
         }
     }
@@ -1691,4 +1700,11 @@ void Core::slAnswerErrSave(QString fileName)
     }
 }
 
-
+Core::~Core()
+{
+    if(port->isOpen())
+    {
+        port->close();
+        qDebug()<<"CLOSEPORT";
+    }
+}
