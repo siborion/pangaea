@@ -92,6 +92,7 @@ public:
     Parser *getEND;
     Parser *getccEND;
     Parser *getdccEND;
+    Parser *getlccEND;
     Parser *getescEND;
     Parser *getRX;
     Parser *getNX;

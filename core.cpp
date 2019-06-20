@@ -24,6 +24,7 @@ Core::Core(QObject *parent) : QObject(parent), settings("AM Electronics", "CP-10
     getEND     = new Parser("gsEND\n", "111111");
     getccEND   = new Parser("ccEND\n", "111111");
     getdccEND  = new Parser("dcc\rEND\n", "11111111");
+    getlccEND  = new Parser("lcc\rEND\n", "11111111");
     getescEND  = new Parser("esc\rEND\n", "11111111");
     getNX      = new Parser("NX\n", "111");
     getRX      = new Parser("RX 01", "11111");
@@ -403,6 +404,12 @@ void Core::slReadyRead()
     {
         enResiv = true;
         qDebug()<<"savePreset";
+    }
+
+    if(getlccEND->getParse(res, &rs))
+    {
+        enResiv = true;
+        qDebug()<<"getLcc";
     }
 
     if(getEND->getParse(res, &rs))
