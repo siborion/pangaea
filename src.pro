@@ -3,6 +3,7 @@ TEMPLATE = app
 
 QT += qml quick svg
 QT += serialport
+QT += texttospeech
 
 CONFIG += c++11
 CONFIG += no_batch

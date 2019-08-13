@@ -110,6 +110,7 @@ public:
     Parser *getRnEmpty;
     Parser *getCabSim;
     Parser *getPC;
+    Parser *getVer;
 
 private:
     QByteArray baCommand;

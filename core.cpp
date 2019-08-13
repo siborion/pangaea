@@ -6,6 +6,7 @@
 #include <QDesktopServices>
 #include <QGuiApplication>
 #include "qserialport.h"
+#include <QTextToSpeech>
 
 //#define logEn 1
 
@@ -40,6 +41,7 @@ Core::Core(QObject *parent) : QObject(parent), settings("AM Electronics", "CP-10
     getRnEmpty = new Parser("rn\r\n", "1111");
     getCabSim = new Parser("ce 0\r", "11101");
     getPC     = new Parser("pc x\r", "111X1");
+    getVer    = new Parser("amtver\r1.2.3\n","1111111000001");
 
     QByteArray sample, mask;
     sample = "rns\r";
@@ -80,6 +82,10 @@ Core::Core(QObject *parent) : QObject(parent), settings("AM Electronics", "CP-10
     connect(timer, SIGNAL(timeout()), SLOT(slPortTimer()));
 
     timer->start();
+
+    QTextToSpeech *speech;
+    speech = new QTextToSpeech;
+    speech->say("Проверка воспроизведения звука");
 }
 
 void Core::slPortError()
@@ -397,6 +403,14 @@ void Core::slReadyRead()
             enResiv = true;
             getName->clearAll();
             qDebug()<<"getName"<<typeDev;
+        }
+    }
+
+    if(getVer->getParse(res, &rs))
+    {
+        if(rs.size()==1)
+        {
+            qDebug()<<"getVer";
         }
     }
 
@@ -872,6 +886,7 @@ void Core::readAll()
     lastImpulsFileDsp.clear();
     lastImpulsPathDsp.clear();
     send("amtdev\r\n");
+    send("amtver\r\n");
     send("rns\r\n");
     send("rn\r\n");
     send("gb\r\n");
