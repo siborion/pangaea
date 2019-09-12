@@ -83,6 +83,11 @@ public:
 
     Q_INVOKABLE void slAnswerErrSave(QString);
 
+    Q_INVOKABLE void slTabKey(bool revert);
+
+    Q_INVOKABLE void slUpDown(bool);
+
+    Q_INVOKABLE void slSpeechValue(QString);
 
     Q_INVOKABLE quint8      typeDev;
 
@@ -167,6 +172,8 @@ private:
     quint8 outputType;
     QString lastSendStr;
 
+    QString curSpeechControl;
+
     enum TypeDev
     {
         UnknownDev=0,CP100,CP16,CP16PA,CP100PA
@@ -234,6 +241,8 @@ signals:
     void sgReadValue(QString nameParam, qint32 value);
     void sgReadText(QString nameParam, QString value);
     void sgAnswerErrSave(QString strCom);
+
+    void sgUpDown(QString controlName, bool up);
 
 
 };

@@ -6,6 +6,7 @@
 #include <QDesktopServices>
 #include <QGuiApplication>
 #include "qserialport.h"
+#include <QTextToSpeech>
 
 //#define logEn 1
 
@@ -1700,6 +1701,34 @@ void Core::slAnswerErrSave(QString fileName)
     }
 }
 
+void Core::slTabKey(bool revert)
+{
+    static quint16 curSpeech=0;
+    static const QStringList sl={"master_volume", "early_volume"};
+
+    QTextToSpeech tts;
+
+    curSpeech++;
+    if( curSpeech>=sl.length() )
+        curSpeech = 0;
+
+    curSpeechControl = sl.at(curSpeech);
+    tts.say(curSpeechControl);
+}
+
+void Core::slUpDown(bool Up)
+{
+    emit sgUpDown(curSpeechControl, Up);
+}
+
+void Core::slSpeechValue(QString value)
+{
+    QTextToSpeech tts;
+    tts.say(value);
+    qDebug()<<"value"<<value;
+}
+
+
 Core::~Core()
 {
     if(port->isOpen())
@@ -1708,3 +1737,5 @@ Core::~Core()
         qDebug()<<"CLOSEPORT";
     }
 }
+
+
