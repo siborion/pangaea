@@ -6,7 +6,9 @@
 #include <QDesktopServices>
 #include <QGuiApplication>
 #include "qserialport.h"
-#include <QTextToSpeech>
+//#include <QTextToSpeech>
+#include <QtTest/QTest>
+
 
 //#define logEn 1
 
@@ -720,31 +722,41 @@ void Core::slSaveChange(qint8 inChangePreset)
 }
 
 
-QByteArray Core::getSaveImpuls(QString filePath, QString fileName)
-{
-    QByteArray baRet;
-    QByteArray baFile;
-    QByteArray baSample;
-    QFile   *file;
-    emit sgSetImpulsName(fileName);
-    file = new QFile(filePath);
-    file->open(QIODevice::ReadOnly);
-    baSample = file->readAll();
-    baRet.append(QString("cc %1 0\r").arg(fileName).toUtf8());
-    foreach (quint8 chr, baSample)
-    {
-        QString sTmp;
-        if(chr<=15)
-            sTmp = QString("0%1").arg(chr, 1, 16).toUtf8();
-        else
-            sTmp = QString("%1").arg (chr, 2, 16).toUtf8();
-        baFile.append(sTmp);
-    }
-    baRet.append(baFile.left(32000));
-    baRet.append(QString("\r").toUtf8());
-    file->close();
-    return baRet;
-}
+//QByteArray Core::getSaveImpuls(QString filePath, QString fileName)
+//{
+//    QByteArray baRet;
+//    QByteArray baFile;
+//    QByteArray baSample;
+//    QFile   *file;
+//    emit sgSetImpulsName(fileName);
+//    file = new QFile(filePath);
+
+//    qDebug()<<"filePath"<<filePath;
+
+//    file->open(QIODevice::ReadOnly);
+//    baSample = file->readAll();
+
+//    qDebug()<<"baSample"<<baSample;
+
+//    baRet.append(QString("cc %1 0\r").arg(fileName).toUtf8());
+//    foreach (quint8 chr, baSample)
+//    {
+//        QString sTmp;
+//        if(chr<=15)
+//            sTmp = QString("0%1").arg(chr, 1, 16).toUtf8();
+//        else
+//            sTmp = QString("%1").arg (chr, 2, 16).toUtf8();
+//        baFile.append(sTmp);
+//    }
+
+//    qDebug()<<"baFile"<<baFile;
+
+
+//    baRet.append(baFile.left(32000));
+//    baRet.append(QString("\r").toUtf8());
+//    file->close();
+//    return baRet;
+//}
 
 void Core::slTimer()
 {
@@ -768,7 +780,19 @@ void Core::slTimer()
             }
         }
 
-        sendRaw(command.first());
+        if( command.first().length() > 1000)
+        {
+            while (command.first().length())
+            {
+                sendRaw(command.first().left(1000));
+                command.first().remove(0,1000);
+            }
+        }
+        else
+        {
+            sendRaw(command.first());
+        }
+
         if(command.first().indexOf("cc\r\n")==0)
         {
             timer->setInterval(5000);
@@ -894,7 +918,7 @@ void Core::sendRaw(QByteArray val)
     port->readAll();
     res.clear();
     port->write(val);
-    qDebug()<<"send"<<val;
+//    qDebug()<<"send"<<val;
 }
 
 void Core::sendEdit(QByteArray val)
@@ -995,12 +1019,15 @@ void Core::decodeWav(QString filePath, bool whereSave)
     qDebug()<<"decodeWav"<<filePath<<whereSave;
 
     if(!whereSave)
+    {
         decodeWavOk(filePath, whereSave);
+    }
     else
     {
         stWavHeader wavHead = getFormatWav(filePath);
         if((wavHead.bitsPerSample != 24) || (wavHead.numChannels == 2))
         {
+            qDebug("$$$$ FormatError");
             send("sp\r\n");
             send("rn\r\n");
             send("gs\r\n");
@@ -1008,7 +1035,10 @@ void Core::decodeWav(QString filePath, bool whereSave)
             slTimer();
         }
         else
+        {
+            qDebug("$$$$ FormatOk");
             decodeWavOk(filePath, whereSave);
+        }
     }
 }
 
@@ -1033,6 +1063,9 @@ void Core::decodeWavOk(QString filePath, bool whereSave)
     QString tmp=QString::fromLocal8Bit((char*)wavHeader->subchunk2Id, 4);
     baWav.remove(0, baWav.indexOf("data")+8);
 
+    qDebug()<<"numChannels"<<numChannels;
+    qDebug()<<"bitPerSample"<<bitPerSample;
+
     baDecode.clear();
     baDecode.append(decode(&baWav, bitPerSample/8, numChannels));
     slDecodeStop();
@@ -1041,6 +1074,8 @@ void Core::decodeWavOk(QString filePath, bool whereSave)
 void Core::slDecodeStop()
 {
     QByteArray baSend;
+
+    qDebug()<<"__FUNCTION__"<<__FUNCTION__<<__LINE__;
 
     if(saveToFile)
     {
@@ -1324,9 +1359,17 @@ QByteArray Core::decodeSample(QByteArray data, quint8 lenSample)
     QByteArray ret;
     if(data.length()<lenSample)
     {
-        ret.append((char)0);
-        ret.append((char)0);
-        ret.append((char)0);
+        quint8 i = 0;
+        for(i=0; i<data.length(); i++)
+        {
+            ret.append(data.at(i));
+        }
+
+//        for(; i<lenSample; i++)
+//        {
+//            ret.append((char)0);
+//        }
+
         return ret;
     }
 
@@ -1706,14 +1749,14 @@ void Core::slTabKey(bool revert)
     static quint16 curSpeech=0;
     static const QStringList sl={"master_volume", "early_volume"};
 
-    QTextToSpeech tts;
+//    QTextToSpeech tts;
 
     curSpeech++;
     if( curSpeech>=sl.length() )
         curSpeech = 0;
 
     curSpeechControl = sl.at(curSpeech);
-    tts.say(curSpeechControl);
+//    tts.say(curSpeechControl);
 }
 
 void Core::slUpDown(bool Up)
@@ -1723,8 +1766,8 @@ void Core::slUpDown(bool Up)
 
 void Core::slSpeechValue(QString value)
 {
-    QTextToSpeech tts;
-    tts.say(value);
+//    QTextToSpeech tts;
+//    tts.say(value);
     qDebug()<<"value"<<value;
 }
 

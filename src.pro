@@ -3,7 +3,7 @@ TEMPLATE = app
 
 QT += qml quick svg
 QT += serialport
-QT += texttospeech
+#QT += texttospeech
 
 
 CONFIG += c++11
