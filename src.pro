@@ -3,7 +3,7 @@ TEMPLATE = app
 
 QT += qml quick svg
 QT += serialport
-QT += texttospeech
+#QT += texttospeech
 
 CONFIG += c++11
 CONFIG += no_batch
@@ -29,4 +29,7 @@ HEADERS += \
     struct.h \
     parser.h
 
-
+OTHER_FILES += \
+    ../flat/*.qml \
+    ../flat/elements/*.qml \
+    ../flat/moduls/*.qml
