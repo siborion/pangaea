@@ -6,7 +6,7 @@
 #include <QDesktopServices>
 #include <QGuiApplication>
 #include "qserialport.h"
-#include <QTextToSpeech>
+//#include <QTextToSpeech>
 #include <QtTest/QTest>
 
 
@@ -23,9 +23,9 @@ Core::Core(QObject *parent) : QObject(parent), settings("AM Electronics", "CP-10
     timer = new QTimer();
     timer->setInterval(1000);
 
-    QTextToSpeech *speech;
-    speech = new QTextToSpeech;
-    speech->say("Проверка воспроизведения звука");
+//    QTextToSpeech *speech;
+//    speech = new QTextToSpeech;
+//    speech->say("Проверка воспроизведения звука");
 
     getName    = new Parser("amtdev\rX\nEND\n", "1111111X11111");
     getEND     = new Parser("gsEND\n", "111111");
@@ -1761,9 +1761,9 @@ void Core::slTabKey(bool revert)
     curSpeechControl = sl.at(curSpeech);
 
 
-    QTextToSpeech *speech;
-    speech = new QTextToSpeech;
-    speech->say(curSpeechControl);
+//    QTextToSpeech *speech;
+//    speech = new QTextToSpeech;
+//    speech->say(curSpeechControl);
 
 
 }
@@ -1775,9 +1775,9 @@ void Core::slUpDown(bool Up)
 
 void Core::slSpeechValue(QString value)
 {
-    QTextToSpeech *speech;
-    speech = new QTextToSpeech;
-    speech->say(value);
+//    QTextToSpeech *speech;
+//    speech = new QTextToSpeech;
+//    speech->say(value);
 }
 
 
