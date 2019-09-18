@@ -563,9 +563,11 @@ void Core::setImpuls(QString filePath, QString fileName)
     res.clear();
     port->readAll();
 
+    qDebug("$$$$$ %s %d", __FUNCTION__, __LINE__);
+
     stWavHeader wavHead = getFormatWav(filePath);
 
-    if((wavHead.sampleRate != 48000) && (wavHead.sampleRate != 44100))
+    if((wavHead.sampleRate != 48000) || (wavHead.bitsPerSample != 24) || (wavHead.numChannels != 1))
     {
         emit sgNotSupport();
         emit sgSetWait(false);
