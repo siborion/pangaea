@@ -43,6 +43,5 @@ deploy:
     on:
         appveyor_repo_tag: true
     auth_token:
-	branch: master
         secure: viysZ6KstlTiK6Jq6vKwhp6N9rbcM78R83yPOZbVmush/P3EwYs/Sk9f1HWtiUrn
 
