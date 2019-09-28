@@ -39,10 +39,11 @@ deploy:
     provider: GitHub
     tag: $(APPVEYOR_REPO_TAG_NAME)
     artifact: distrib.zip
-    auth_token:
-        secure: "viysZ6KstlTiK6Jq6vKwhp6N9rbcM78R83yPOZbVmush/P3EwYs/Sk9f1HWtiUrn"
     prerelease: false
     force_update: true
     on:
         appveyor_repo_tag: true
         tags: true
+    auth_token:
+        secure: "viysZ6KstlTiK6Jq6vKwhp6N9rbcM78R83yPOZbVmush/P3EwYs/Sk9f1HWtiUrn"
+
