@@ -8,6 +8,8 @@
 #include <QStack>
 #include "struct.h"
 #include "parser.h"
+#include "filemodel.h"
+
 
 struct stWavHeader
 {
