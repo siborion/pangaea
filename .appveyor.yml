@@ -6,26 +6,25 @@
     
 install:
   - cd c:/QT
-  - set QTDIR=C:\Qt\5.10\mingw53_32
+  - set QTDIR=C:\Qt\5.13\mingw73_32
   - choco install -y InnoSetup
-  - set PATH=%QTDIR%\bin;C:\Qt\Tools\mingw530_32\bin;%PATH%;"C:\Program Files (x86)\Inno Setup 5"
+  - set PATH=%QTDIR%\bin;C:\Qt\Tools\mingw730_32\bin;%PATH%;"C:\Program Files (x86)\Inno Setup 5"
   
 build_script:
   - cd C:\
   - dir
   - cd C:\Qt
   - dir
-  - cd C:\Qt\5.10
+  - cd C:\Qt\5.13
   - dir
-  - cd C:\Qt\5.10\mingw53_32
+  - cd C:\Qt\5.13\mingw73_32
   - dir
   - cd C:\projects\pangaea
+  - git clone https://github.com/siborion/pangaea_flat.git release/flat
   - qmake src.pro
   - mingw32-make
   
 after_build:
-  - git clone https://github.com/siborion/pangaea_flat.git release/flat
-  - windeployqt.exe release/PangaeaCPPA.exe --release --qmldir release/flat --verbose 0
   - rm release/*.o
   - rm release/*.cpp
   - ISCC inno.iss /dJenkinsAppVersion=%APPVEYOR_BUILD_VERSION%
@@ -35,10 +34,13 @@ artifacts:
     type: zip
 
 deploy:
-    description: '$(APPVEYOR_REPO_TAG_NAME)'
+    description: "Development builds"
     provider: GitHub
-    auth_token:
-        secure: viysZ6KstlTiK6Jq6vKwhp6N9rbcM78R83yPOZbVmush/P3EwYs/Sk9f1HWtiUrn
+    tag: $(APPVEYOR_REPO_TAG_NAME)
+    artifact: distrib.zip
     force_update: true
     on:
-        appveyor_repo_tag: true   
+        appveyor_repo_tag: true
+    auth_token:
+        secure: viysZ6KstlTiK6Jq6vKwhp6N9rbcM78R83yPOZbVmush/P3EwYs/Sk9f1HWtiUrn
+
