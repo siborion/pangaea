@@ -35,10 +35,12 @@ artifacts:
     type: zip
 
 deploy:
-    description: '$(APPVEYOR_REPO_TAG_NAME)'
+    description: "Development builds"
     provider: GitHub
+    artifact: pangaea-${APPVEYOR_REPO_TAG_NAME}-installer.exe
     auth_token:
-        secure: viysZ6KstlTiK6Jq6vKwhp6N9rbcM78R83yPOZbVmush/P3EwYs/Sk9f1HWtiUrn
+        secure: "viysZ6KstlTiK6Jq6vKwhp6N9rbcM78R83yPOZbVmush/P3EwYs/Sk9f1HWtiUrn"
+    prerelease: true        
     force_update: true
     on:
         appveyor_repo_tag: true   
