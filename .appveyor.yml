@@ -37,6 +37,7 @@ artifacts:
 deploy:
     description: "Development builds"
     provider: GitHub
+    tag: $(APPVEYOR_REPO_TAG_NAME)
     artifact: pangaea-${APPVEYOR_REPO_TAG_NAME}-installer.exe
     auth_token:
         secure: "viysZ6KstlTiK6Jq6vKwhp6N9rbcM78R83yPOZbVmush/P3EwYs/Sk9f1HWtiUrn"
