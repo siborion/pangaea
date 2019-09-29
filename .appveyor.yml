@@ -25,7 +25,6 @@ build_script:
   - mingw32-make
   
 after_build:
-#  - windeployqt.exe release/PangaeaCPPA.exe --release --qmldir release/flat --verbose 0
   - rm release/*.o
   - rm release/*.cpp
   - ISCC inno.iss /dJenkinsAppVersion=%APPVEYOR_BUILD_VERSION%
