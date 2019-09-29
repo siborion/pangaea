@@ -22,9 +22,9 @@ build_script:
   - cd C:\projects\pangaea
   - qmake src.pro
   - mingw32-make
+  - git clone https://github.com/siborion/pangaea_flat.git release/flat
   
 after_build:
-  - git clone https://github.com/siborion/pangaea_flat.git release/flat
 #  - windeployqt.exe release/PangaeaCPPA.exe --release --qmldir release/flat --verbose 0
   - rm release/*.o
   - rm release/*.cpp
