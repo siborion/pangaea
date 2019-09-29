@@ -35,10 +35,12 @@ OTHER_FILES += \
     ../flat/moduls/*.qml
 
 
-DESTDIR = $${BIN_PATH}/
+#DESTDIR = $${BIN_PATH}/
 
 win32 {
-QMAKE_POST_LINK += windeployqt.exe  release$${DESTDIR}$${TARGET}.exe  --release -qmldir=$${PWD}/release/flat/ --verbose 0 $$RETURN
+#DESTDIR_WIN = $${DESTDIR}
+#DESTDIR_WIN ~= s,/,\\,g
+QMAKE_POST_LINK += windeployqt.exe  release/$${TARGET}.exe  --release -qmldir=$${PWD}/release/flat/ --verbose 0 $$RETURN
 }
 
 macx {
