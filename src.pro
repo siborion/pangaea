@@ -38,8 +38,6 @@ OTHER_FILES += \
 DESTDIR = $${BIN_PATH}/
 
 win32 {
-DESTDIR_WIN = $${DESTDIR}
-DESTDIR_WIN ~= s,/,\\,g
 QMAKE_POST_LINK += windeployqt.exe  release$${DESTDIR}$${TARGET}.exe  --release -qmldir=$${PWD}/release/flat/ --verbose 0 $$RETURN
 }
 
