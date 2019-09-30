@@ -6,7 +6,7 @@
     
 install:
   - cd c:/QT
-  - set QTDIR=C:\Qt\5.13\mingw73_32
+  - set QTDIR=C:\Qt\5.11.1\mingw53_32
   - choco install -y InnoSetup
   - set PATH=%QTDIR%\bin;C:\Qt\Tools\mingw730_32\bin;%PATH%;"C:\Program Files (x86)\Inno Setup 5"
   
@@ -15,9 +15,9 @@ build_script:
   - dir
   - cd C:\Qt
   - dir
-  - cd C:\Qt\5.13
+  - cd C:\Qt\5.11.1
   - dir
-  - cd C:\Qt\5.13\mingw73_32
+  - cd C:\Qt\5.11.1\mingw53_32
   - dir
   - cd C:\projects\pangaea
   - git clone https://github.com/siborion/pangaea_flat.git release/flat
