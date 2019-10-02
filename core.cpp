@@ -556,6 +556,11 @@ void Core::send(QByteArray val)
     commandCount = command.size();
 }
 
+void Core::setImpuls (QString fullFilePath)
+{
+    qDebug()<<"fullFilePath"<<fullFilePath;
+
+}
 
 void Core::setImpuls(QString filePath, QString fileName)
 {
