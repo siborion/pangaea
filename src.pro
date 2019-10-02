@@ -44,9 +44,8 @@ QMAKE_POST_LINK += windeployqt.exe  release/$${TARGET}.exe  --release -qmldir=$$
 }
 
 macx {
-QMAKE_POST_LINK += macdeployqt $${DESTDIR}$${TARGET}.app -qmldir=$${PWD}/ -dmg  $$RETURN
+QMAKE_POST_LINK += macdeployqt $${DESTDIR}$${TARGET}.app -qmldir=../flat -dmg  $$RETUTN
 }
-
 
 
 
