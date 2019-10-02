@@ -14,6 +14,10 @@ SOURCES += main.cpp \
 
 RC_FILE     = resources.rc
 
+macx {
+ICON = ico/pangaea.icns
+}
+
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
 
