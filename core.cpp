@@ -556,6 +556,17 @@ void Core::send(QByteArray val)
     commandCount = command.size();
 }
 
+void Core::setImpuls (QString fullFilePath)
+{
+    QFileInfo fileInfo(fullFilePath);
+    if( fileInfo.isFile() )
+    {
+        qDebug("$$$$$ %s %d", __FUNCTION__, __LINE__);
+        fileInfo.absoluteDir();
+        setImpuls(fullFilePath, fileInfo.fileName());
+        qDebug()<<"fullFilePath"<<fullFilePath<<fileInfo.fileName();
+    }
+}
 
 void Core::setImpuls(QString filePath, QString fileName)
 {
@@ -563,18 +574,18 @@ void Core::setImpuls(QString filePath, QString fileName)
     res.clear();
     port->readAll();
 
-    qDebug("$$$$$ %s %d", __FUNCTION__, __LINE__);
-
     stWavHeader wavHead = getFormatWav(filePath);
 
     if((wavHead.sampleRate != 48000) || (wavHead.bitsPerSample != 24) || (wavHead.numChannels != 1))
     {
+        qDebug("$$$$$ %s %d", __FUNCTION__, __LINE__);
         emit sgNotSupport();
         emit sgSetWait(false);
         emit sgReadValue ("wait", false);
     }
     else
     {
+        qDebug("$$$$$ %s %d", __FUNCTION__, __LINE__);
         bImpulsPaste = false;
         lastImpulsFileDsp = fileName;
         lastImpulsPathDsp = filePath;
