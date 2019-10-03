@@ -37,6 +37,7 @@ public:
     Q_INVOKABLE void sendRaw   (QByteArray);
     Q_INVOKABLE void sendEdit  (QByteArray);
     Q_INVOKABLE void setImpuls (QString filePath, QString fileName);
+    Q_INVOKABLE void setImpuls (QString fullFilePath);
 //    QByteArray getSaveImpuls(QString filePath, QString fileName);
     Q_INVOKABLE bool openPort  (QString);
     Q_INVOKABLE void findPort  ();
