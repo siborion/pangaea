@@ -559,12 +559,13 @@ void Core::send(QByteArray val)
 void Core::setImpuls (QString fullFilePath)
 {
     QFileInfo fileInfo(fullFilePath);
+
+    qDebug()<<"fullFilePath"<<fullFilePath<<fileInfo.fileName();
+
     if( fileInfo.isFile() )
     {
-        qDebug("$$$$$ %s %d", __FUNCTION__, __LINE__);
         fileInfo.absoluteDir();
         setImpuls(fullFilePath, fileInfo.fileName());
-        qDebug()<<"fullFilePath"<<fullFilePath<<fileInfo.fileName();
     }
 }
 
