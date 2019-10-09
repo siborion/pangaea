@@ -138,7 +138,7 @@ void Core::slReadyRead()
 {
     enResiv = false;
     res = port->readAll();
-//    qDebug()<<"slReadyRead"<<res;
+    qDebug()<<"slReadyRead"<<res;
 
 #ifdef logEn
     log->write("\r\n<<");
@@ -312,8 +312,8 @@ void Core::slReadyRead()
         {
             if(rs.at(1).size()==2)
             {
-                emit sgReadBank(rs.at(1).at(0), rs.at(1).at(1));
-                emit sgReadValue ("read_bank",  (rs.at(1).at(0)-0x30)*10+(rs.at(1).at(1)-0x30));
+//                emit sgReadBank(rs.at(1).at(0), rs.at(1).at(1));
+//                emit sgReadValue ("read_bank",  (rs.at(1).at(0)-0x30)*10+(rs.at(1).at(1)-0x30));
                 presetEdit = false;
                 sgSetEdit(presetEdit);
                 emit sgReadValue ("preset_edit",       presetEdit);
@@ -329,8 +329,8 @@ void Core::slReadyRead()
         {
             if(rs.at(1).size()==2)
             {
-                emit sgReadPreset(rs.at(1).at(0), rs.at(1).at(1));
-                emit sgReadValue ("read_preset",  (rs.at(1).at(0)-0x30)*10+(rs.at(1).at(1)-0x30));
+//                emit sgReadPreset(rs.at(1).at(0), rs.at(1).at(1));
+//                emit sgReadValue ("read_preset",  (rs.at(1).at(0)-0x30)*10+(rs.at(1).at(1)-0x30));
                 presetEdit = false;
                 sgSetEdit(presetEdit);
                 emit sgReadValue ("preset_edit",       presetEdit);
@@ -346,13 +346,18 @@ void Core::slReadyRead()
         {
             if(rs.at(0).size()==4)
             {
-                quint8 bank, preset;
-                bank   = rs.at(0).left(2).toUInt()+0x30;
-                preset = rs.at(0).right(2).toUInt()+0x30;
-                emit sgReadBank  (1, bank);
-                emit sgReadPreset(1, preset);
-                emit sgReadValue ("bank",              bank-48);
-                emit sgReadValue ("preset",            preset-48);
+                quint8 preset, bank;
+
+                preset = rs.at(0).left(2).toUInt();
+                bank   = rs.at(0).right(2).toUInt();
+
+                emit sgReadValue ("bank",       quint8(bank)); //maxBank));
+                emit sgReadValue ("preset",     quint8(preset)); //%maxBank)); //остаток от деления
+
+                qDebug()<<"B="<<bank<<"P="<<preset;
+
+//                qDebug()<<"bank"<<quint8(preset/maxBank)<<"preset"<<quint8(preset%maxBank);
+
                 enResiv = true;
                 presetEdit = false;
             }
@@ -559,9 +564,9 @@ void Core::send(QByteArray val)
 void Core::setImpuls (QString fullFilePath)
 {
     QFileInfo fileInfo(fullFilePath);
+    qDebug() << __FUNCTION__ << __LINE__ << fullFilePath;
     if( fileInfo.isFile() )
     {
-        qDebug("$$$$$ %s %d", __FUNCTION__, __LINE__);
         fileInfo.absoluteDir();
         setImpuls(fullFilePath, fileInfo.fileName());
         qDebug()<<"fullFilePath"<<fullFilePath<<fileInfo.fileName();
@@ -809,12 +814,14 @@ void Core::slTimer()
             }
         }
 
-        if( command.first().length() > 1000)
+        if( command.first().length() > 500)
         {
-            while (command.first().length())
+            quint32 start=0;
+            while (start < command.first().length())
             {
-                sendRaw(command.first().left(1000));
-                command.first().remove(0,1000);
+                sendRaw(command.first().mid(start, 500));
+                start += 500;
+                QThread::msleep(20);
             }
         }
         else
@@ -948,7 +955,7 @@ void Core::sendRaw(QByteArray val)
     port->readAll();
     res.clear();
     port->write(val);
-//    qDebug()<<"send"<<val;
+    qDebug()<<"send"<<val;
 }
 
 void Core::sendEdit(QByteArray val)
@@ -1210,7 +1217,7 @@ void Core::setPresetChange(quint8 val)
     command.clear();
     lastImpulsFileDsp.clear();
     lastImpulsPathDsp.clear();
-    send(QString("pc %1\r\n").arg(val, 0, 16).toUtf8());
+    send(QString("pc %2\r\n").arg(val, 0, 16).toUtf8());
     send("gb\r\n");
     send("gs\r\n");
     send("rn\r\n");
@@ -1663,7 +1670,10 @@ void Core::setValue(QString name, quint8 value)
     if(name==("bank_UpDown"))
         PresetUpDownStage1(value?1:2);
     if(name==("preset_change"))
+    {
         PresetChangeStage1(value);
+        qDebug()<<__FUNCTION__<<__LINE__;
+    }
 
 
     if(name==("set_preset_updown"))
