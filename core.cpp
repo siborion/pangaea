@@ -348,15 +348,11 @@ void Core::slReadyRead()
             {
                 quint8 preset, bank;
 
-                preset = rs.at(0).left(2).toUInt();
-                bank   = rs.at(0).right(2).toUInt();
+                bank = rs.at(0).left(2).toUInt();
+                preset   = rs.at(0).right(2).toUInt();
 
                 emit sgReadValue ("bank",       quint8(bank)); //maxBank));
                 emit sgReadValue ("preset",     quint8(preset)); //%maxBank)); //остаток от деления
-
-                qDebug()<<"B="<<bank<<"P="<<preset;
-
-//                qDebug()<<"bank"<<quint8(preset/maxBank)<<"preset"<<quint8(preset%maxBank);
 
                 enResiv = true;
                 presetEdit = false;
