@@ -125,8 +125,8 @@ private:
 
     bool   enResiv;
     quint8 sendCount;
-    quint8 maxBank;
-    quint8 maxPreset;
+    quint8 maxBank = 10;
+    quint8 maxPreset = 10;
 
     QStack<quint8> stackFolder;
     stWavHeader getFormatWav(QString filePath);
@@ -221,8 +221,8 @@ signals:
 //    void sgPortError(QString str);
     void signal();
 
-    void sgReadBank  (quint32 bImpuls, quint32 numBank);
-    void sgReadPreset(quint32 bImpuls, quint32 numPreset);
+//    void sgReadBank  (quint32 bImpuls, quint32 numBank);
+//    void sgReadPreset(quint32 bImpuls, quint32 numPreset);
     void sgSetImpulsName (QString val);
     void sgSetEnabled (bool val);
     void sgSetProgress (float val);
